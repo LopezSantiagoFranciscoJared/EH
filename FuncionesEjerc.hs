@@ -6,7 +6,7 @@
 -- promedio3 (-1) 0 7 == 2.0
 -- promedio3 (-3) 0 3 == 0.0
 
-promedio3 x y z = (x +y +z)/3
+promedio3 x y z = (x + y + z) / 3
 
 
 -- Ejercicio 2. Definir la función sumaMonedas tal que
@@ -18,14 +18,15 @@ promedio3 x y z = (x +y +z)/3
 --sumaMonedas 1 1 1 1 1 == 38
 
 
-sumaMonedas a b c d e = a*1 + b*2 + c*5 + d*10 + e*20 
+sumaMonedas a b c d e = a * 1 + b * 2 + c * 5 + d * 10 + e * 20
 
 -- Ejercicio 3. Definir la función volumenEsfera tal que
 -- (volumenEsfera r) es el volumen de la esfera de radio r. Por ejemplo,
 -- volumenEsfera 10 == 4188.790204786391
 -- Indicación: Usar la constante pi.
 
-volumenEsfera radio = (4/3) * pi * radio^3
+volumenEsfera r = (4/3) * pi * r^3
+
 
 -- Ejercicio 4. Definir la función areaDeCoronaCircular tal que
 -- (areaDeCoronaCircular r1 r2) es el área de una corona circular de
@@ -34,14 +35,14 @@ volumenEsfera radio = (4/3) * pi * radio^3
 --areaDeCoronaCircular 2 5 == 65.97344572538566
 --areaDeCoronaCircular 3 5 == 50.26548245743669
 
-areaCoronaCircular r1 r2 = pi * (r2^2 - r1^2)
+areaDeCoronaCircular r1 r2 = pi * (r2^2 - r1^2)
 
 -- Ejercicio 5. Definir la función ultimaCifra tal que (ultimaCifra x)
 -- es la última cifra del número x. Por ejemplo,
 -- ultimaCifra 325 == 5
 -- Indicación: Usar la función rem
 
-ultimaCifra n = rem n  10
+ultimaCifra x = x `rem` 10
 
 -- Ejercicio 6. Definir la función maxTres tal que (maxTres x y z) es
 -- el máximo de x, y y z. Por ejemplo,
@@ -50,7 +51,7 @@ ultimaCifra n = rem n  10
 -- maxTres 6 7 9 == 9
 -- Indicación: Usar la función max.
 
-maxTres a b c = max a (max b c)
+maxTres x y z = max x (max y z)
 
 -- Ejercicio 7. Definir la función rota1 tal que (rota1 xs) es la lista
 -- obtenida poniendo el primer elemento de xs al final de la lista. Por
@@ -58,8 +59,8 @@ maxTres a b c = max a (max b c)
 -- rota1 [3,2,5,7] == [2,5,7,3]
 -- Indicación: Usar la función tail(devuelve todos loe elemtos sin el primero) head (devuelve solo el primer elemento)
 
-rotal [] = []
-rotal xs = tail xs ++ [head xs]
+rota1 [] = []
+rota1 (x:xs) = xs ++ [x]
 
 -- Ejercicio 8. Definir la función rota tal que (rota n xs) es la lista
 -- obtenida poniendo los n primeros elementos de xs al final de la
@@ -105,7 +106,9 @@ interior xs = tail (init xs)
 -- segmento 5 3 [3,4,1,2,7,9,0] == []
 -- Indicación: utiliza la función drop (elimina n elementos) take (devuelve n elementos)
 
-segmento m n xs = take (n-m+1) (drop (m-1) xs)
+segmento m n xs
+    | m > n = []
+    | otherwise = take (n - m + 1) (drop m xs)
 
 -- Ejercicio 14. Definir la función extremos tal que (extremos n xs) es
 -- la lista formada por los n primeros elementos de xs y los n finales
@@ -113,7 +116,7 @@ segmento m n xs = take (n-m+1) (drop (m-1) xs)
 -- extremos 3 [2,6,7,1,2,4,5,8,9,2,3] == [2,6,7,9,2,3]
 -- Indicación: utiliza la función take drop
 
-extremos n xs = take n xs ++ drop (length xs - n) xs
+extremos n xs = take n xs ++ take n (reverse xs)
 
 -- Ejercicio 15. Definir la función mediano tal que (mediano x y z) es el
 -- número mediano de los tres números x, y y z. Por ejemplo,
@@ -131,7 +134,7 @@ mediano x y z = x+y+z - maximum [x,y,z] - minimum [x,y,z]
 -- tresIguales 4 4 4 == True
 -- tresIguales 4 3 4 == False
 
-tresIguales x y z = x == y && y == z
+tresIguales x y z = (x == y) && (y == z)
 
 -- Ejercicio 17. Definir la función tresDiferentes tal que
 -- (tresDiferentes x y z) se verifica si los elementos x, y y z son
@@ -139,7 +142,7 @@ tresIguales x y z = x == y && y == z
 -- tresDiferentes 3 5 2 == True
 -- tresDiferentes 3 5 3 == False
 
-tresDiferentes x y z = x /= y || y /= z || x /= z
+tresDiferentes x y z = (x /= y) && (y /= z) && (x /= z)
 
 -- Ejercicio 18. Definir la función cuatroIguales tal que
 -- (cuatroIguales x y z u) se verifica si los elementos x, y, z y u son
@@ -148,7 +151,7 @@ tresDiferentes x y z = x /= y || y /= z || x /= z
 -- cuatroIguales 5 5 4 5 == False
 -- Indicación: Usar la función tresIguales.
 
-cuatroIguales x y z u =  tresIguales x y z && z == u
+cuatroIguales x y z u = tresIguales x y z && (z == u)
 
 ------------------------- Guardas y Patrones -------------------------------------------------------------
 -- Ejercicio 1. Definir la función
@@ -191,7 +194,9 @@ xor1 x y = (x || y) && not (x && y)
 --mayorRectangulo (4,6) (3,8) == (4,6)
 --mayorRectangulo (4,6) (3,9) == (3,9)
 
-mayorRectangulo (b1, h1) (b2, h2) = if b1 * h1 >= b2 * h2 then (b1, h1) else (b2, h2)
+mayorRectangulo (b1, h1) (b2, h2)
+    | b1 * h1 >= b2 * h2 = (b1, h1)
+    | otherwise          = (b2, h2)
 
 -- Ejercicio 4. Definir la función
 -- intercambia :: (a,b) -> (b,a)
@@ -207,7 +212,7 @@ intercambia (x,y) = (y,x)
 -- tal que (distancia p1 p2) es la distancia entre los puntos p1 y
 -- p2. Por ejemplo,
 -- distancia (1,2) (4,6) == 5.0
-
+distancia (x1, y1) (x2, y2) = sqrt ((x2 - x1)^2 + (y2 - y1)^2)
 
 -- Ejercicio 6. Definir una función
 -- ciclo :: [a] -> [a]
@@ -218,7 +223,9 @@ intercambia (x,y) = (y,x)
 -- ciclo [] == []
 -- ciclo [2] == [2]
 
-
+ciclo [] = []
+ciclo [x] = [x]
+ciclo xs = last xs : init xs
 
 -- Ejercicio 7. Definir la función
 -- numeroMayor :: (Num a, Ord a) => a -> a -> a
@@ -238,10 +245,10 @@ numeroMayor x y = max (10 * x + y) (10 * y + x)
 -- numeroDeRaices 5 23 12 == 2
 
 numeroDeRaices a b c
-    | d < 0     = 0
-    | d == 0    = 1
-    | otherwise = 2
-    where d = b^2 - 4*a*c
+    | discriminante > 0 = 2
+    | discriminante == 0 = 1
+    | otherwise = 0
+  where discriminante = b^2 - 4 * a * c
 
 -- Ejercicio 9. Definir la función
 -- raices :: Double -> Double -> Double -> [Double]
@@ -251,13 +258,13 @@ numeroDeRaices a b c
 -- raices 1 (-2) 1 == [1.0,1.0]
 -- raices 1 0 1 == []
 
+raices :: Double -> Double -> Double -> [Double]
 raices a b c
-    | a == 0 = [] 
-    | d < 0 = [] 
-    | d == 0 = [-b / (2 * a)]  
-    | otherwise = [(-b + d) / (2 * a), (-b - d) / (2 * a)]
-    where
-    d = b^2 - 4*a*c 
+    | discriminante > 0 = [(-b + sqrt discriminante) / (2 * a), (-b - sqrt discriminante) / (2 * a)]
+    | discriminante == 0 = [(-b) / (2 * a)]
+    | otherwise = []
+  where discriminante = b^2 - 4 * a * c
+
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 10. En geometría, la fórmula de Herón, descubierta por
@@ -273,8 +280,7 @@ raices a b c
 -- area 3 4 5 == 6.0
 
 area a b c = sqrt (s * (s - a) * (s - b) * (s - c))
-    where
-    s = (a + b + c) / 2
+    where s = (a + b + c) / 2
 
 -- ---------------------------------------------------------------------
 -- Ejercicio 11. Los intervalos cerrados se pueden representar mediante
@@ -294,10 +300,11 @@ area a b c = sqrt (s * (s - a) * (s - b) * (s - c))
 --interseccion [4,6] [0,4] == [4,4]
 --interseccion [5,6] [0,4] == []
 
+interseccion [] _ = []
 interseccion _ [] = []
-interseccion [a, b] [c, d]
-    | b < c || d < a = []
-    | otherwise = [max a c, min b d]
+interseccion [a1, b1] [a2, b2]
+    | max a1 a2 <= min b1 b2 = [max a1 a2, min b1 b2]
+    | otherwise = []
 
 -- Ejercicio 12. Los triángulos aritméticos se forman como sigue
 --1
@@ -314,7 +321,8 @@ interseccion [a, b] [c, d]
 --linea 4 == [7,8,9,10]
 --linea 5 == [11,12,13,14,15]
 
-linea n = [sum [1..(n-1)] + i | i <- [1..n]]
+linea n = let inicio = (n * (n - 1)) `div` 2 + 1
+    in [inicio .. inicio + n - 1]
 
 ---------------------------Recursividad ---------------------------------------------------------------------
 
@@ -351,15 +359,15 @@ pertenece _ [] = False
 pertenece x (y:ys)
     | x == y    = True
     | otherwise = pertenece x ys
-
 -- Ejercicio 4. Definir por recursión la función
 --tomar :: Int -> [a] -> [a]
 -- tal que (tomar n xs) es la lista de los n primeros elementos de
 -- xs. Por ejemplo,
 --tomar 3 [4..12] => [4,5,6]
 
-tomar 0 _ = [] 
-tomar n (x:xs) = x : tomar (n - 1) xs 
+tomar 0 _      = []
+tomar _ []     = []
+tomar n (x:xs) = x : tomar (n - 1) xs
 
 -- Ejercicio 5. Definir, por comprensión, la función
 --digitosC :: Integer -> [Integer]
@@ -367,7 +375,7 @@ tomar n (x:xs) = x : tomar (n - 1) xs
 -- ejemplo,
 --digitosC 320274 == [3,2,0,2,7,4]
 
-
+digitosC n = [read [x] | x <- show n]
 
 -- Ejercicio 6. Definir, por recursión, la función
 -- sumaDigitosR :: Integer -> Integer
@@ -408,7 +416,10 @@ sumaDigitosR n = (n `mod` 10) + sumaDigitosR (n `div` 10)
 -- ordenaRapida [3,1,4,1,5,9,2] == [1,1,2,3,4,5,9]
 
 ordenaRapida [] = []
-ordenaRapida (x:xs) = ordenaRapida [y | y <- xs, y <= x] ++ [x] ++ ordenaRapida [y | y <- xs, y > x]
+ordenaRapida (x:xs) = 
+    let menoresOIguales = [y | y <- xs, y <= x]
+        mayores = [y | y <- xs, y > x]
+    in ordenaRapida menoresOIguales ++ [x] ++ ordenaRapida mayores
 
 ------------------------------Nuevos tipos de datos-----------------------------------------------------------
 --1.- Crea un nuevo tipo Estudiate con los siguientes atributos
@@ -417,11 +428,18 @@ ordenaRapida (x:xs) = ordenaRapida [y | y <- xs, y <= x] ++ [x] ++ ordenaRapida 
 data Estudiante = Estudiante { nombre :: String, apellido :: String, edad :: Int, control :: Int } deriving (Show, Eq, Ord)
 -- Genera una lista de un mínimo de 10 estudiantes en donde obtendras
 
-estudiantes = [Estudiante "Pedro" "Hernandez" 22 20161217, Estudiante "Alexa" "Gomez" 19 23164565,
-            Estudiante "Karla" "Montes" 17 24163454, Estudiante "Fernanda" "Perez" 21 20732343,
-            Estudiante "Diana" "Reyes" 28 26192525, Estudiante "Neri" "Montes" 22 45235498,
-            Estudiante "Dulce" "Catañeda" 24 24097654, Estudiante "Katy" "Ramirez" 20 11514321,
-            Estudiante "Scrat" "Scrta" 19 23459876, Estudiante "Alberto" "Reyes" 24 18129836]
+estudiantes = [ Estudiante "Patricio" "Hernandez" 22 20161217
+            , Estudiante "Alexa" "Gomez" 19 23164565
+            , Estudiante "Karina" "Montes" 17 24163454
+            , Estudiante "Fernanda" "Perez" 21 20732343
+            , Estudiante "Daniel" "Reyes" 28 26192525
+            , Estudiante "Neri" "Montes" 22 45235498
+            , Estudiante "Dalila" "Castañeda" 24 24097654
+            , Estudiante "Katy" "Ramirez" 20 11514321
+            , Estudiante "Saul" "Reyes" 19 23459876
+            , Estudiante "Alberto" "Reyes" 24 18129836
+            ]
+
 -- Lista ordenada de los estudiantes de acuedo a la edad
 estudiantesOrdenados = ordenar estudiantes
     where
